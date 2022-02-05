@@ -79,6 +79,7 @@ local cache = {
 	blood_plauge = 0,
 	frost_fever = 0,
 	targets = nil,
+   target_count = 0,
 	blood_rune = 0
 }
 
@@ -100,7 +101,9 @@ local abilities = {
 		_, cache.blood_rune = ni.runes.blood.status()
 		cache.blood_plauge = ni.unit.debuff_remaining(t, 55078, p)
 		cache.frost_fever = ni.unit.debuff_remaining(t, 55095, p)
+      ni.objects.update()
 		cache.targets = ni.unit.enemies_in_range(t, 14)
+      cache.target_count = ni.table.length(cache.targets)
 	end,
    ["AutoAttack"] = function()
       if not ni.spell.is_current(spells.AutoAttack.id) and ni.player.in_melee(t) then
@@ -181,7 +184,7 @@ local abilities = {
    end,
    ["Pestilence"] = function()
       local cast = false
-      if cache.blood_plauge > 1 and cache.frost_fever > 1 and #cache.targets >= 2 and
+      if cache.blood_plauge > 1 and cache.frost_fever > 1 and cache.target_count >= 2 and
       ni.spell.valid(spells.Pestilence.id, t, true, true) then
          for guid in ni.table.opairs(t) do
             if ni.unit.debuff_remaining(guid, 55078, p) < 2 or ni.unit.debuffr_emaining(guid, 55078, p) < 2 then
@@ -195,8 +198,8 @@ local abilities = {
       end
    end,
    ["DeathandDecay"] = function()
-      if ni.spell.available(spells.DeathandDecay.id) and #cache.targets >= 2 and ni.spell.in_range(spells.IcyTouch.id, t) then
-         ni.spell.cast_on(spells.DeathandDecay.id, t)
+      if ni.spell.available(spells.DeathandDecay.id) and cache.target_count >= 2 and ni.spell.in_range(spells.DeathCoil.id, t) then
+         ni.spell.cast_on(spells.DeathandDecay.id, t, 1)
          return true
       end
    end
