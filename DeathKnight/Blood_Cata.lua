@@ -6,6 +6,7 @@ local queue = {
    "Cache",
    "VampiricBlood",
    "RuneTap",
+   "MindFreeze",
    "GCD", --All Spells on GCD need to be
    "BloodPresence",
    "BoneShield",
@@ -119,13 +120,11 @@ local abilities = {
    ["RuneTap"] = function()
       if ni.spell.available(spells.RuneTap.id) and ni.player.hp() <= 30 then
          ni.spell.cast(spells.RuneTap.id)
-         return true
       end
    end,
    ["VampiricBlood"] = function()
       if ni.spell.available(spells.VampiricBlood.id) and ni.player.hp() <= 30 then
          ni.spell.cast(spells.VampiricBlood.id)
-         return true
       end
    end,
    ["BoneShield"]= function()
@@ -186,8 +185,8 @@ local abilities = {
       local cast = false
       if cache.blood_plauge > 1 and cache.frost_fever > 1 and cache.target_count >= 2 and
       ni.spell.valid(spells.Pestilence.id, t, true, true) then
-         for guid in ni.table.opairs(t) do
-            if ni.unit.debuff_remaining(guid, 55078, p) < 2 or ni.unit.debuffr_emaining(guid, 55078, p) < 2 then
+         for guid in ni.table.opairs(cache.targets) do
+            if ni.unit.debuff_remaining(guid, 55078, p) < 2 or ni.unit.debuff_remaining(guid, 55078, p) < 2 then
                cast = true
             end
          end
@@ -202,7 +201,12 @@ local abilities = {
          ni.spell.cast_on(spells.DeathandDecay.id, t, 1)
          return true
       end
+   end,
+   ["MindFreeze"] = function()
+      if ni.unit.can_interupt(t, 30) and ni.spell.valid(spells.MindFreeze.id, t, true, true) then
+         ni.spell.cast(spells.MindFreeze.id, t)
+         return true
+      end
    end
 }
-
 ni.profile.new("Blood_Cata", queue, abilities)
