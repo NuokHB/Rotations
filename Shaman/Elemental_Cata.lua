@@ -3,10 +3,14 @@ local ni = ...
 
 local queue = {
    "Pause",
+   "Cache",
+   "WaitForCast",
+   "GCD",
    "FlametongueWeapon",
    "LightningShield",
    "FlameShock",
    "LavaBurst",
+   "EarthShock",
    "ChainLightning",
    "LightningBolt"
 }
@@ -79,16 +83,37 @@ local spells = {
    HealingRain = {id = 73920, name = ni.spell.info(73920)}
 }
 
-local t, p = "target", "player"
+local t,
+   p = "target", "player"
+
+local cache = {
+   targets = nil,
+   target_count = 0
+}
 
 local abilities = {
    ["Pause"] = function()
       if
-         ni.player.is_mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
+         ni.player.mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
             not ni.player.can_attack(t)
        then
          return true
       end
+   end,
+   ["GCD"] = function()
+      if ni.spell.on_gcd() then
+         return true
+      end
+   end,
+   ["WaitForCast"] = function ()
+      if ni.player.casting() then
+         return true
+      end
+   end,
+   ["Cache"] = function()
+      ni.objects.update()
+      cache.targets = ni.unit.enemies_in_range(t, 15)
+      cache.target_count = ni.table.length(cache.targets)
    end,
    ["LightningBolt"] = function()
       if ni.spell.valid(spells.LightningBolt.id, t, true, true) then
@@ -96,39 +121,47 @@ local abilities = {
          return true
       end
    end,
-   ["ChainLightning"] = function ()
-      if ni.spell.valid(spells.ChainLightning.id, t, true, true) then
-         local unit = ni.unit.enemies_in_range(t, 14)
-         if #unit > 2 then
-            ni.spell.cast(spells.ChainLightning.id, t)
-            return true
-         end
+   ["ChainLightning"] = function()
+      if ni.spell.valid(spells.ChainLightning.id, t, true, true) and cache.target_count > 1 then
+         ni.spell.cast(spells.ChainLightning.id, t)
+         return true
       end
    end,
-   ["LightningShield"] = function ()
+   ["LightningShield"] = function()
       if not ni.player.buff(spells.LightningShield.name) and ni.spell.available(spells.LightningShield.id) then
          ni.spell.cast(spells.LightningShield.id)
          return true
       end
    end,
    ["FlameShock"] = function()
-      if ni.unit.debuff_remaining(t, spells.FlameShock.id, p) < 1.5 and ni.spell.valid(spells.FlameShock.id, t, true, true) then
+      if
+         ni.unit.debuff_remaining(t, spells.FlameShock.id, p) < 1.5 and
+            ni.spell.valid(spells.FlameShock.id, t, true, true)
+       then
          ni.spell.cast(spells.FlameShock.id, t)
          return true
       end
    end,
+   ["EarthShock"] = function()
+      if ni.player.buff_stacks(spells.LightningShield.id) == 9 and ni.spell.valid(spells.EarthShock.id, t, true, true) then
+         ni.spell.cast(spells.EarthShock.id, t)
+         return true
+      end
+   end,
    ["LavaBurst"] = function()
-      if ni.unit.debuff_remaining(t, spells.FlameShock.id, p) > 1.8 and ni.spell.valid(spells.LavaBurst.id, t, true, true) then
+      if
+         ni.unit.debuff_remaining(t, spells.FlameShock.id, p) > 1.8 and
+            ni.spell.valid(spells.LavaBurst.id, t, true, true)
+       then
          ni.spell.cast(spells.LavaBurst.id, t)
          return true
       end
    end,
-   ["FlametongueWeapon"] = function ()
+   ["FlametongueWeapon"] = function()
       if not ni.gear.weapon_enchant_info() and ni.spell.available(spells.FlametongueWeapon.id) then
          ni.spell.cast(spells.FlametongueWeapon.id)
          return true
       end
    end
 }
-
 ni.profile.new("Elemental_Cata", queue, abilities)
