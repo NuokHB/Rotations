@@ -5,9 +5,12 @@ local queue = {
    "Pause",
    "Cache",
    "WaitForCast",
+   "WindShear",
    "GCD",
+   --"CalloftheElements",
    "FlametongueWeapon",
    "LightningShield",
+   "Earthquake",
    "FlameShock",
    "LavaBurst",
    "EarthShock",
@@ -16,9 +19,7 @@ local queue = {
 }
 
 local spells = {
-   --General icon = select(2, GetSpellTabInfo(1))
-   AutoAttack = {id = 6603, name = ni.spell.info(6603)},
-   --Elemental Combat icon = select(2, GetSpellTabInfo(2))
+   --Elemental Combat
    BindElemental = {id = 76780, name = ni.spell.info(76780)},
    CalloftheAncestors = {id = 66843, name = ni.spell.info(66843)},
    CalloftheElements = {id = 66842, name = ni.spell.info(66842)},
@@ -26,12 +27,14 @@ local spells = {
    ChainLightning = {id = 421, name = ni.spell.info(421)},
    EarthShock = {id = 8042, name = ni.spell.info(8042)},
    EarthbindTotem = {id = 2484, name = ni.spell.info(2484)},
+   Earthquake = {id = 61882, name = ni.spell.info(61882)},
    ElementalFury = {id = 60188, name = ni.spell.info(60188)},
    ElementalMastery = {id = 16166, name = ni.spell.info(16166)},
    FireElementalTotem = {id = 2894, name = ni.spell.info(2894)},
    FireNova = {id = 1535, name = ni.spell.info(1535)},
    FlameShock = {id = 8050, name = ni.spell.info(8050)},
    FrostShock = {id = 8056, name = ni.spell.info(8056)},
+   Hex = {id = 51514, name = ni.spell.info(51514)},
    LavaBurst = {id = 51505, name = ni.spell.info(51505)},
    LightningBolt = {id = 403, name = ni.spell.info(403)},
    MagmaTotem = {id = 8190, name = ni.spell.info(8190)},
@@ -41,9 +44,8 @@ local spells = {
    StoneclawTotem = {id = 5730, name = ni.spell.info(5730)},
    Thunderstorm = {id = 51490, name = ni.spell.info(51490)},
    WindShear = {id = 57994, name = ni.spell.info(57994)},
-   Hex = {id = 51514, name = ni.spell.info(51514)},
    SpiritwalkersGrace = {id = 79206, name = ni.spell.info(79206)},
-   --Enhancement icon = select(2, GetSpellTabInfo(3))
+   --Enhancement
    AstralRecall = {id = 556, name = ni.spell.info(556)},
    Bloodlust = {id = 2825, name = ni.spell.info(2825)},
    EarthElementalTotem = {id = 2062, name = ni.spell.info(2062)},
@@ -56,6 +58,7 @@ local spells = {
    GroundingTotem = {id = 8177, name = ni.spell.info(8177)},
    LightningShield = {id = 324, name = ni.spell.info(324)},
    PrimalStrike = {id = 73899, name = ni.spell.info(73899)},
+   RockbiterWeapon = {id = 8017, name = ni.spell.info(8017)},
    StoneskinTotem = {id = 8071, name = ni.spell.info(8071)},
    StrengthofEarthTotem = {id = 8075, name = ni.spell.info(8075)},
    WaterBreathing = {id = 131, name = ni.spell.info(131)},
@@ -63,9 +66,8 @@ local spells = {
    WindfuryTotem = {id = 8512, name = ni.spell.info(8512)},
    WindfuryWeapon = {id = 8232, name = ni.spell.info(8232)},
    WrathofAirTotem = {id = 3738, name = ni.spell.info(3738)},
-   RockbiterWeapon = {id = 8017, name = ni.spell.info(8017)},
    UnleashElements = {id = 73680, name = ni.spell.info(73680)},
-   --Restoration icon = select(2, GetSpellTabInfo(4))
+   --Restoration
    AncestralSpirit = {id = 2008, name = ni.spell.info(2008)},
    ChainHeal = {id = 1064, name = ni.spell.info(1064)},
    CleanseSpirit = {id = 51886, name = ni.spell.info(51886)},
@@ -76,10 +78,10 @@ local spells = {
    HealingWave = {id = 331, name = ni.spell.info(331)},
    ManaSpringTotem = {id = 5675, name = ni.spell.info(5675)},
    Reincarnation = {id = 20608, name = ni.spell.info(20608)},
+   TotemofTranquilMind = {id = 87718, name = ni.spell.info(87718)},
    TotemicRecall = {id = 36936, name = ni.spell.info(36936)},
    TremorTotem = {id = 8143, name = ni.spell.info(8143)},
    WaterShield = {id = 52127, name = ni.spell.info(52127)},
-   TotemofTranquilMind = {id = 87718, name = ni.spell.info(87718)},
    HealingRain = {id = 73920, name = ni.spell.info(73920)}
 }
 
@@ -105,7 +107,7 @@ local abilities = {
          return true
       end
    end,
-   ["WaitForCast"] = function ()
+   ["WaitForCast"] = function()
       if ni.player.casting() then
          return true
       end
@@ -162,6 +164,28 @@ local abilities = {
          ni.spell.cast(spells.FlametongueWeapon.id)
          return true
       end
-   end
+   end,
+   ["WindShear"] = function()
+      if ni.spell.valid(spells.WindShear.id, t, true, true) and ni.unit.can_interupt(t, 30) then
+         ni.spell.cast(spells.WindShear.id, t)
+         return true
+      end
+   end,
+   ["CalloftheElements"] = function()
+      if
+         ni.spell.available(spells.CalloftheElements.id) and
+            (not ni.totem.exists("totem1") or ni.totem.distance("totem1", t) > 40 or not ni.totem.is_active("fire")) and
+            ni.spell.in_range(spells.LightningBolt.id, t)
+       then
+         ni.spell.cast(spells.CalloftheElements.id)
+         return true
+      end
+   end,
+   ["Earthquake"] = function()
+      if ni.spell.available(spells.Earthquake.id) and cache.target_count >= 6 and ni.spell.in_range(spells.LightningBolt.id, t) then
+         ni.spell.cast_on(spells.Earthquake.id, t, 1)
+         return true
+      end
+   end,
 }
 ni.profile.new("Elemental_Cata", queue, abilities)
