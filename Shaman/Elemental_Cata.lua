@@ -7,10 +7,12 @@ local queue = {
    "WaitForCast",
    "WindShear",
    "GCD",
-   --"CalloftheElements",
+   "CalloftheElements",
    "FlametongueWeapon",
    "LightningShield",
+   "Thunderstorm",
    "Earthquake",
+   "ChainLightning5",
    "FlameShock",
    "LavaBurst",
    "EarthShock",
@@ -123,6 +125,12 @@ local abilities = {
          return true
       end
    end,
+   ["ChainLightning5"] = function()
+      if ni.spell.valid(spells.ChainLightning.id, t, true, true) and ni.player.has_glyph(55449) and cache.target_count >= 5 then
+         ni.spell.cast(spells.ChainLightning.id, t)
+         return true
+      end
+   end,
    ["ChainLightning"] = function()
       if ni.spell.valid(spells.ChainLightning.id, t, true, true) and cache.target_count > 1 then
          ni.spell.cast(spells.ChainLightning.id, t)
@@ -187,5 +195,11 @@ local abilities = {
          return true
       end
    end,
+   ["Thunderstorm"] = function ()
+      if ni.spell.available(spells.Thunderstorm.id) and ni.player.distance(t) < 10 then
+         ni.spell.cast(spells.Thunderstorm.id)
+         return true
+      end
+   end
 }
 ni.profile.new("Elemental_Cata", queue, abilities)
