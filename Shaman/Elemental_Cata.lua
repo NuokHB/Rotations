@@ -7,6 +7,7 @@ local queue = {
    "WaitForCast",
    "WindShear",
    "GCD",
+   "Purge",
    "CalloftheElements",
    "FlametongueWeapon",
    "LightningShield",
@@ -196,9 +197,20 @@ local abilities = {
       end
    end,
    ["Thunderstorm"] = function ()
-      if ni.spell.available(spells.Thunderstorm.id) and ni.player.distance(t) < 10 then
+      if ni.spell.available(spells.Thunderstorm.id) and ni.player.distance(t) < 10 and ni.player.has_glyph(62132) then
          ni.spell.cast(spells.Thunderstorm.id)
          return true
+      end
+   end,
+   ["Purge"] = function()
+      if ni.spell.valid(spells.WindShear.id, t, true, true) then
+         local buffs = ni.unit.buffs(t)
+         for k, v in ni.table.pairs(buffs) do
+            if v.buffType == "Magic" and v.isStealable ~= nil then
+               ni.spell.cast(spells.Purge.id, t)
+               return true
+            end
+         end
       end
    end
 }
