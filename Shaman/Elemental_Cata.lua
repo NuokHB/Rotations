@@ -88,8 +88,56 @@ local spells = {
    HealingRain = {id = 73920, name = ni.spell.info(73920)}
 }
 
-local t,
-   p = "target", "player"
+local enables = {
+   ["CalloftheElements"] = true,
+   ["Purge"] = false,
+}
+local values = {
+   ["ChainLightning"] = 2,
+}
+local inputs = {}
+local menus = {}
+
+local function GUICallback(key, item_type, value)
+   ni.utilities.log("GUICallback " .. key .. item_type .. tostring(value))
+   if item_type == "enabled" then
+      enables[key] = value
+   elseif item_type == "value" then
+      values[key] = value
+   elseif item_type == "input" then
+      inputs[key] = value
+   elseif item_type == "menu" then
+      menus[key] = value
+   end
+end
+
+local ui = {
+   settingsfile = ni.player.guid().."_ele_cata.json",
+   callback = GUICallback,
+   {
+      type = "checkbox",
+      text = spells.CalloftheElements.name,
+      enabled = enables["CalloftheElements"],
+      key = "CalloftheElements"
+   },
+   {
+      type = "checkbox",
+      text = spells.Purge.name,
+      enabled = enables["Purge"],
+      key = "Purge"
+   },
+   {
+		type = "slider",
+		value = values["ChainLightning"],
+      text = spells.ChainLightning.name,
+      min =  1,
+      max = 10,
+		key = "ChainLightning"
+	},
+   {type = "label", text = "By Nuok"},
+}
+
+local t, p = "target", "player"
 
 local cache = {
    targets = nil,
@@ -127,13 +175,16 @@ local abilities = {
       end
    end,
    ["ChainLightning5"] = function()
-      if ni.spell.valid(spells.ChainLightning.id, t, true, true) and ni.player.has_glyph(55449) and cache.target_count >= 5 then
+      if
+         ni.spell.valid(spells.ChainLightning.id, t, true, true) and ni.player.has_glyph(55449) and
+            cache.target_count >= 5
+       then
          ni.spell.cast(spells.ChainLightning.id, t)
          return true
       end
    end,
    ["ChainLightning"] = function()
-      if ni.spell.valid(spells.ChainLightning.id, t, true, true) and cache.target_count > 1 then
+      if ni.spell.valid(spells.ChainLightning.id, t, true, true) and cache.target_count >= values["ChainLightning"] then
          ni.spell.cast(spells.ChainLightning.id, t)
          return true
       end
@@ -182,7 +233,7 @@ local abilities = {
    end,
    ["CalloftheElements"] = function()
       if
-         ni.spell.available(spells.CalloftheElements.id) and
+         enables["CalloftheElements"] and ni.spell.available(spells.CalloftheElements.id) and
             (not ni.totem.exists("totem1") or ni.totem.distance("totem1", t) > 40 or not ni.totem.is_active("fire")) and
             ni.spell.in_range(spells.LightningBolt.id, t)
        then
@@ -191,27 +242,32 @@ local abilities = {
       end
    end,
    ["Earthquake"] = function()
-      if ni.spell.available(spells.Earthquake.id) and cache.target_count >= 6 and ni.spell.in_range(spells.LightningBolt.id, t) then
+      if
+         ni.spell.available(spells.Earthquake.id) and cache.target_count >= 6 and
+            ni.spell.in_range(spells.LightningBolt.id, t)
+       then
          ni.spell.cast_on(spells.Earthquake.id, t, 1)
          return true
       end
    end,
-   ["Thunderstorm"] = function ()
+   ["Thunderstorm"] = function()
       if ni.spell.available(spells.Thunderstorm.id) and ni.player.distance(t) < 10 and ni.player.has_glyph(62132) then
          ni.spell.cast(spells.Thunderstorm.id)
          return true
       end
    end,
    ["Purge"] = function()
-      if ni.spell.valid(spells.WindShear.id, t, true, true) then
-         local buffs = ni.unit.buffs(t)
-         for k, v in ni.table.pairs(buffs) do
-            if v.buffType == "Magic" and v.isStealable ~= nil then
-               ni.spell.cast(spells.Purge.id, t)
-               return true
+      if enables["Purge"] then
+         if ni.spell.valid(spells.Purge.id, t, true, true) then
+            local buffs = ni.unit.buffs(t)
+            for k, v in ni.table.pairs(buffs) do
+               if v.buffType == "Magic" and v.isStealable ~= nil then
+                  ni.spell.cast(spells.Purge.id, t)
+                  return true
+               end
             end
          end
       end
    end
 }
-ni.profile.new("Elemental_Cata", queue, abilities)
+ni.profile.new("Elemental_Cata", queue, abilities, ui)
