@@ -2,47 +2,52 @@
 local ni = ...
 
 local spells = {
---General
-ArcaneAffinity = {id = 28877, name = ni.spell.info(28877)},
-ArcaneTorrent = {id = 28730, name = ni.spell.info(28730)},
-AutoAttack = {id = 6603, name = ni.spell.info(6603)},
-Dodge = {id = 81, name = ni.spell.info(81)},
-MagicResistance = {id = 822, name = ni.spell.info(822)},
-Shoot = {id = 5019, name = ni.spell.info(5019)},
+   --General
+  ArcaneAffinity = {id = 28877, name = ni.spell.info(28877)},
+  ArcaneTorrent = {id = 28730, name = ni.spell.info(28730)},
+  AutoAttack = {id = 6603, name = ni.spell.info(6603)},
+  Dodge = {id = 81, name = ni.spell.info(81)},
+  MagicResistance = {id = 822, name = ni.spell.info(822)},
+  Shoot = {id = 5019, name = ni.spell.info(5019)},
 --Arcane
-AmplifyMagic = {id = 8455, name = ni.spell.info(8455)},
-ArcaneExplosion = {id = 8438, name = ni.spell.info(8438)},
-ArcaneIntellect = {id = 1461, name = ni.spell.info(1461)},
-ArcaneMissiles = {id = 8416, name = ni.spell.info(8416)},
-Blink = {id = 1953, name = ni.spell.info(1953)},
-ConjureFood = {id = 6129, name = ni.spell.info(6129)},
-ConjureManaGem = {id = 759, name = ni.spell.info(759)},
-ConjureWater = {id = 6127, name = ni.spell.info(6127)},
-Counterspell = {id = 2139, name = ni.spell.info(2139)},
-DampenMagic = {id = 8450, name = ni.spell.info(8450)},
-Evocation = {id = 12051, name = ni.spell.info(12051)},
-ManaShield = {id = 8494, name = ni.spell.info(8494)},
-Polymorph = {id = 12824, name = ni.spell.info(12824)},
-RemoveCurse = {id = 475, name = ni.spell.info(475)},
-SlowFall = {id = 130, name = ni.spell.info(130)},
-TeleportSilvermoon = {id = 32272, name = ni.spell.info(32272)},
+  AmplifyMagic = {id = 10169, name = ni.spell.info(10169)},
+  ArcaneExplosion = {id = 10201, name = ni.spell.info(10201)},
+  ArcaneIntellect = {id = 10156, name = ni.spell.info(10156)},
+  ArcaneMissiles = {id = 10211, name = ni.spell.info(10211)},
+  Blink = {id = 1953, name = ni.spell.info(1953)},
+  ConjureFood = {id = 10145, name = ni.spell.info(10145)},
+  ConjureManaGem = {id = 10053, name = ni.spell.info(10053)},
+  ConjureWater = {id = 10139, name = ni.spell.info(10139)},
+  Counterspell = {id = 2139, name = ni.spell.info(2139)},
+  DampenMagic = {id = 10173, name = ni.spell.info(10173)},
+  Evocation = {id = 12051, name = ni.spell.info(12051)},
+  MageArmor = {id = 22782, name = ni.spell.info(22782)},
+  ManaShield = {id = 10192, name = ni.spell.info(10192)},
+  Polymorph = {id = 12825, name = ni.spell.info(12825)},
+  RemoveCurse = {id = 475, name = ni.spell.info(475)},
+  SlowFall = {id = 130, name = ni.spell.info(130)},
+  TeleportSilvermoon = {id = 32272, name = ni.spell.info(32272)},
 --Fire
-FireBlast = {id = 8412, name = ni.spell.info(8412)},
-FireWard = {id = 8457, name = ni.spell.info(8457)},
-Fireball = {id = 8401, name = ni.spell.info(8401)},
-Flamestrike = {id = 8422, name = ni.spell.info(8422)},
-Scorch = {id = 8444, name = ni.spell.info(8444)},
+  FireBlast = {id = 10197, name = ni.spell.info(10197)},
+  FireWard = {id = 10223, name = ni.spell.info(10223)},
+  Fireball = {id = 10149, name = ni.spell.info(10149)},
+  Flamestrike = {id = 10215, name = ni.spell.info(10215)},
+  Scorch = {id = 10206, name = ni.spell.info(10206)},
 --Frost
-Blizzard = {id = 8427, name = ni.spell.info(8427)},
-ColdSnap = {id = 11958, name = ni.spell.info(11958)},
-ConeofCold = {id = 8492, name = ni.spell.info(8492)},
-FrostArmor = {id = 7301, name = ni.spell.info(7301)},
-FrostNova = {id = 865, name = ni.spell.info(865)},
-FrostWard = {id = 6143, name = ni.spell.info(6143)},
-Frostbolt = {id = 8407, name = ni.spell.info(8407)},
-IceArmor = {id = 7302, name = ni.spell.info(7302)},
-IceBlock = {id = 45438, name = ni.spell.info(45438)},
-IcyVeins = {id = 12472, name = ni.spell.info(12472)},
+  Blizzard = {id = 10186, name = ni.spell.info(10186)},
+  ColdSnap = {id = 11958, name = ni.spell.info(11958)},
+  ConeofCold = {id = 10160, name = ni.spell.info(10160)},
+  FrostArmor = {id = 7301, name = ni.spell.info(7301)},
+  FrostNova = {id = 6131, name = ni.spell.info(6131)},
+  FrostWard = {id = 10177, name = ni.spell.info(10177)},
+  Frostbolt = {id = 10180, name = ni.spell.info(10180)},
+  IceArmor = {id = 10219, name = ni.spell.info(10219)},
+  IceBarrier = {id = 13032, name = ni.spell.info(13032)},
+  IceBlock = {id = 45438, name = ni.spell.info(45438)},
+  IcyVeins = {id = 12472, name = ni.spell.info(12472)},
+  SummonWaterElemental = {id = 31687, name = ni.spell.info(31687)},
+--Pet
+  Waterbolt = {id = 31707, name = ni.spell.info(31707)},
 }
 
 local t,
@@ -58,23 +63,36 @@ local cache = {
 local queue = {
    "Pause",
    "Cache",
-   "WaitForCast",
    "GCD",
+   "WaitForCast",
    "ArcaneIntellect",
+   "ArcaneIntellectGroup",
+   "MageArmor",
    "FrostArmor",
+   "SummonWaterElemental",
+   "PauseTarget",
    "ManaGem",
    "Evocation",
    "Counterspell",
+   "PetAttack",
    "ConeofCold",
    "Blizzard",
+   "Fireball",
    "Frostbolt",
    "Shoot"
 }
 
-local ManaGem = ni.item.info(5514)
+local ManaGem = ni.item.info(8007)
+local BrainFreeze = 57761
+local GlyphofEternalWater = ni.player.has_glyph(70937)
 
 local abilities = {
    ["Pause"] = function()
+      if ni.player.mounted() or ni.player.is_dead_or_ghost() then
+         return true
+      end
+   end,
+   ["PauseTarget"] = function()
       if
          ni.player.mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
             not ni.player.can_attack(t)
@@ -101,7 +119,7 @@ local abilities = {
       cache.target_count = ni.table.length(cache.targets)
    end,
    ["Fireball"] = function()
-      if not cache.moving and ni.spell.valid(spells.Fireball.name, t, true, true) then
+      if ni.player.buff(BrainFreeze) and ni.spell.valid(spells.Fireball.name, t, true, true) then
          ni.spell.cast(spells.Fireball.name, t)
          return true
       end
@@ -112,8 +130,17 @@ local abilities = {
          return true
       end
    end,
+   ["MageArmor"] = function()
+      if not ni.player.buff(spells.MageArmor.name) and ni.spell.available(spells.MageArmor.name) then
+         ni.spell.cast(spells.MageArmor.name)
+         return true
+      end
+   end,
    ["FrostArmor"] = function()
-      if not ni.player.buff(spells.FrostArmor.name) and ni.spell.available(spells.FrostArmor.name) then
+      if
+         not ni.spell.known(spells.MageArmor.name) and not ni.player.buff(spells.FrostArmor.name) and
+            ni.spell.available(spells.FrostArmor.name)
+       then
          ni.spell.cast(spells.FrostArmor.name)
          return true
       end
@@ -122,6 +149,18 @@ local abilities = {
       if not ni.player.buff(spells.ArcaneIntellect.name) and ni.spell.available(spells.ArcaneIntellect.id) then
          ni.spell.cast(spells.ArcaneIntellect.name, p)
          return true
+      end
+   end,
+   ["ArcaneIntellectGroup"] = function()
+      for guid, value in ni.table.opairs(ni.members) do
+         if
+            not ni.unit.buff(guid, spells.ArcaneIntellect.name) and
+               ni.spell.valid(spells.ArcaneIntellect.id, guid, false, true, true) and
+               ni.unit.power(guid, "mana") > 100
+          then
+            ni.spell.cast(spells.ArcaneIntellect.name, guid)
+            return true
+         end
       end
    end,
    ["Evocation"] = function()
@@ -155,7 +194,10 @@ local abilities = {
       end
    end,
    ["ConjureManaGem"] = function()
-      if not ni.item.is_present(ManaGem) and ni.spell.available(spells.ConjureManaGem.id) then
+      if
+         not ni.item.is_present(ManaGem) and ni.spell.available(spells.ConjureManaGem.id) and cache.mana > 90 and
+            not cache.moving
+       then
          ni.spell.cast(spells.ConjureManaGem.name)
          return true
       end
@@ -170,6 +212,17 @@ local abilities = {
       if ni.spell.valid(spells.Counterspell.id, t, true, true) and ni.unit.can_interupt(t, 30) then
          ni.spell.cast(spells.Counterspell.id, t)
          return true
+      end
+   end,
+   ["SummonWaterElemental"] = function ()
+      if ni.spell.available(spells.SummonWaterElemental.id) and GlyphofEternalWater and not ni.pet.exists() then
+         ni.spell.cast(spells.SummonWaterElemental.id)
+         return true
+      end
+   end,
+   ["PetAttack"] = function ()
+      if ni.pet.exists() and ni.pet.current_target() ~= ni.unit.guid(t)  then
+         ni.pet.attack()
       end
    end
 }
