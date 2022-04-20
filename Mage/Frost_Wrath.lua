@@ -2,52 +2,58 @@
 local ni = ...
 
 local spells = {
-   --General
-  ArcaneAffinity = {id = 28877, name = ni.spell.info(28877)},
-  ArcaneTorrent = {id = 28730, name = ni.spell.info(28730)},
-  AutoAttack = {id = 6603, name = ni.spell.info(6603)},
-  Dodge = {id = 81, name = ni.spell.info(81)},
-  MagicResistance = {id = 822, name = ni.spell.info(822)},
-  Shoot = {id = 5019, name = ni.spell.info(5019)},
+--General
+ArcaneAffinity = {id = 28877, name = ni.spell.info(28877)},
+ArcaneTorrent = {id = 28730, name = ni.spell.info(28730)},
+AutoAttack = {id = 6603, name = ni.spell.info(6603)},
+Dodge = {id = 81, name = ni.spell.info(81)},
+MagicResistance = {id = 822, name = ni.spell.info(822)},
+Shoot = {id = 5019, name = ni.spell.info(5019)},
 --Arcane
-  AmplifyMagic = {id = 10169, name = ni.spell.info(10169)},
-  ArcaneExplosion = {id = 10201, name = ni.spell.info(10201)},
-  ArcaneIntellect = {id = 10156, name = ni.spell.info(10156)},
-  ArcaneMissiles = {id = 10211, name = ni.spell.info(10211)},
-  Blink = {id = 1953, name = ni.spell.info(1953)},
-  ConjureFood = {id = 10145, name = ni.spell.info(10145)},
-  ConjureManaGem = {id = 10053, name = ni.spell.info(10053)},
-  ConjureWater = {id = 10139, name = ni.spell.info(10139)},
-  Counterspell = {id = 2139, name = ni.spell.info(2139)},
-  DampenMagic = {id = 10173, name = ni.spell.info(10173)},
-  Evocation = {id = 12051, name = ni.spell.info(12051)},
-  MageArmor = {id = 22782, name = ni.spell.info(22782)},
-  ManaShield = {id = 10192, name = ni.spell.info(10192)},
-  Polymorph = {id = 12825, name = ni.spell.info(12825)},
-  RemoveCurse = {id = 475, name = ni.spell.info(475)},
-  SlowFall = {id = 130, name = ni.spell.info(130)},
-  TeleportSilvermoon = {id = 32272, name = ni.spell.info(32272)},
+AmplifyMagic = {id = 10170, name = ni.spell.info(10170)},
+ArcaneBrilliance = {id = 23028, name = ni.spell.info(23028)},
+ArcaneExplosion = {id = 10202, name = ni.spell.info(10202)},
+ArcaneIntellect = {id = 10157, name = ni.spell.info(10157)},
+ArcaneMissiles = {id = 10212, name = ni.spell.info(10212)},
+Blink = {id = 1953, name = ni.spell.info(1953)},
+ConjureFood = {id = 28612, name = ni.spell.info(28612)},
+ConjureManaGem = {id = 10054, name = ni.spell.info(10054)},
+ConjureWater = {id = 10140, name = ni.spell.info(10140)},
+Counterspell = {id = 2139, name = ni.spell.info(2139)},
+DampenMagic = {id = 10173, name = ni.spell.info(10173)},
+Evocation = {id = 12051, name = ni.spell.info(12051)},
+MageArmor = {id = 22783, name = ni.spell.info(22783)},
+ManaShield = {id = 10192, name = ni.spell.info(10192)},
+Polymorph = {id = 12825, name = ni.spell.info(12825)},
+PortalSilvermoon = {id = 32267, name = ni.spell.info(32267)},
+PortalUndercity = {id = 11418, name = ni.spell.info(11418)},
+RemoveCurse = {id = 475, name = ni.spell.info(475)},
+SlowFall = {id = 130, name = ni.spell.info(130)},
+TeleportSilvermoon = {id = 32272, name = ni.spell.info(32272)},
+TeleportUndercity = {id = 3563, name = ni.spell.info(3563)},
 --Fire
-  FireBlast = {id = 10197, name = ni.spell.info(10197)},
-  FireWard = {id = 10223, name = ni.spell.info(10223)},
-  Fireball = {id = 10149, name = ni.spell.info(10149)},
-  Flamestrike = {id = 10215, name = ni.spell.info(10215)},
-  Scorch = {id = 10206, name = ni.spell.info(10206)},
+FireBlast = {id = 10199, name = ni.spell.info(10199)},
+FireWard = {id = 10223, name = ni.spell.info(10223)},
+Fireball = {id = 10151, name = ni.spell.info(10151)},
+Flamestrike = {id = 10216, name = ni.spell.info(10216)},
+MoltenArmor = {id = 30482, name = ni.spell.info(30482)},
+Scorch = {id = 10207, name = ni.spell.info(10207)},
 --Frost
-  Blizzard = {id = 10186, name = ni.spell.info(10186)},
-  ColdSnap = {id = 11958, name = ni.spell.info(11958)},
-  ConeofCold = {id = 10160, name = ni.spell.info(10160)},
-  FrostArmor = {id = 7301, name = ni.spell.info(7301)},
-  FrostNova = {id = 6131, name = ni.spell.info(6131)},
-  FrostWard = {id = 10177, name = ni.spell.info(10177)},
-  Frostbolt = {id = 10180, name = ni.spell.info(10180)},
-  IceArmor = {id = 10219, name = ni.spell.info(10219)},
-  IceBarrier = {id = 13032, name = ni.spell.info(13032)},
-  IceBlock = {id = 45438, name = ni.spell.info(45438)},
-  IcyVeins = {id = 12472, name = ni.spell.info(12472)},
-  SummonWaterElemental = {id = 31687, name = ni.spell.info(31687)},
+Blizzard = {id = 10187, name = ni.spell.info(10187)},
+ColdSnap = {id = 11958, name = ni.spell.info(11958)},
+ConeofCold = {id = 10161, name = ni.spell.info(10161)},
+DeepFreeze = {id = 44572, name = ni.spell.info(44572)},
+FrostArmor = {id = 7301, name = ni.spell.info(7301)},
+FrostNova = {id = 10230, name = ni.spell.info(10230)},
+FrostWard = {id = 10177, name = ni.spell.info(10177)},
+Frostbolt = {id = 25304, name = ni.spell.info(25304)},
+IceArmor = {id = 10219, name = ni.spell.info(10219)},
+IceBarrier = {id = 13033, name = ni.spell.info(13033)},
+IceBlock = {id = 45438, name = ni.spell.info(45438)},
+IcyVeins = {id = 12472, name = ni.spell.info(12472)},
+SummonWaterElemental = {id = 31687, name = ni.spell.info(31687)},
 --Pet
-  Waterbolt = {id = 31707, name = ni.spell.info(31707)},
+Waterbolt = {id = 31707, name = ni.spell.info(31707)},
 }
 
 local t,
@@ -77,12 +83,13 @@ local queue = {
    "PetAttack",
    "ConeofCold",
    "Blizzard",
+   "DeepFreeze",
    "Fireball",
    "Frostbolt",
    "Shoot"
 }
 
-local ManaGem = ni.item.info(8007)
+local ManaGem = ni.item.info(8008)
 local BrainFreeze = 57761
 local GlyphofEternalWater = ni.player.has_glyph(70937)
 
@@ -223,6 +230,13 @@ local abilities = {
    ["PetAttack"] = function ()
       if ni.pet.exists() and ni.pet.current_target() ~= ni.unit.guid(t)  then
          ni.pet.attack()
+      end
+   end,
+   ["DeepFreeze"] = function ()
+      if ni.spell.valid(spells.DeepFreeze.name, t, true, true)
+      and ni.spell.is_usable(spells.DeepFreeze.id) then
+         ni.spell.cast(spells.DeepFreeze.name)
+         return true
       end
    end
 }
