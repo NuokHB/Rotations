@@ -283,7 +283,7 @@ local abilities = {
    ["Blizzard"] = function()
       if enables["Blizzard"] and not cache.moving and ni.spell.available(spells.Blizzard.name) and
          ni.spell.in_range(spells.Frostbolt.name, t) and
-         cache.target_count >= values["Blizzard"]
+         cache.target_count >= values["BlizzardCount"]
        then
          ni.spell.cast_on(spells.Blizzard.name, t)
          return true
