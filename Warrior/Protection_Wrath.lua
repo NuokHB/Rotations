@@ -102,7 +102,7 @@ local abilities = {
       end
    end,
    ["Revenge"] = function()
-      if ni.spell.available(spells.Revenge.name) and ni.spell.is_usable(spells.Revenge.id) then
+      if ni.spell.available(spells.Revenge.name) and ni.spell.is_usable(spells.Revenge.name) then
          ni.spell.cast(spells.Revenge.name, t)
          return true
       end
