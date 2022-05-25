@@ -54,6 +54,7 @@ local queue = {
    "MindFreeze",
    "DeathandDecay",
    "Pestilence",
+   "BloodBoil",
    "IcyTouch",
    "PlagueStrike",
    "DeathStrike",
@@ -183,11 +184,12 @@ local abilities = {
    end,
    ["Pestilence"] = function ()
       local should_cast = false
-      if cache.blood_plauge > 1 and cache.frost_fever > 1 and cache.target_count >= 2 then
+      if cache.blood_plauge > 1 and cache.frost_fever > 1 and cache.target_count >= 1 then
          if ni.spell.valid(spells.Pestilence.name, t, true, true) then
             for guid in ni.table.opairs(cache.targets) do
                if ni.unit.debuff_remaining(guid, 55078, p) < 2 or ni.unit.debuff_remaining(guid, 55095, p) < 2 then
                   should_cast = true
+                  break
                end
             end
             if should_cast then
@@ -212,6 +214,21 @@ local abilities = {
       if ni.spell.available(spells.DeathandDecay.name) and cache.target_count >= values["DeathandDecay"] and ni.spell.in_range(spells.IcyTouch.name, t) then
          ni.spell.cast_on(spells.DeathandDecay.name, t)
          return true
+      end
+   end,
+   ["BloodBoil"] = function ()
+      if ni.spell.available(spells.BloodBoil.name) then
+         local nearby = ni.unit.enemies_in_range(t, 10)
+         local count = 0
+         for guid, value in ni.table.opairs(nearby) do
+            if  ni.unit.debuff_remaining(guid, 55078, p) > 2 or ni.unit.debuff_remaining(guid, 55095, p) > 2 then
+               count = count + 1
+            end
+         end
+         if count > 2 then
+            ni.spell.cast(spells.BloodBoil.name)
+            return
+         end
       end
    end
 }
