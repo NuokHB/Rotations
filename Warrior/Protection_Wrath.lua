@@ -84,7 +84,6 @@ local abilities = {
       end
    end,
    ["Cache"] = function()
-      ni.objects.update()
 		cache.targets = ni.player.enemies_in_range(9)
       cache.target_count = ni.table.length(cache.targets)
       cache.rage = ni.player.power(1)

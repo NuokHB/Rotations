@@ -209,8 +209,6 @@ local abilities = {
       end
    end,
    ["Cache"] = function()
-      ni.members.update()
-      ni.objects.update()
       cache.mana = ni.player.power_percent("mana")
       cache.moving = ni.player.is_moving()
       cache.targets = ni.unit.enemies_in_range(t, 10)

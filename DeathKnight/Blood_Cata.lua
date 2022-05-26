@@ -102,7 +102,6 @@ local abilities = {
 		_, cache.blood_rune = ni.runes.blood.status()
 		cache.blood_plauge = ni.unit.debuff_remaining(t, 55078, p)
 		cache.frost_fever = ni.unit.debuff_remaining(t, 55095, p)
-      ni.objects.update()
 		cache.targets = ni.unit.enemies_in_range(t, 14)
       cache.target_count = ni.table.length(cache.targets)
 	end,
