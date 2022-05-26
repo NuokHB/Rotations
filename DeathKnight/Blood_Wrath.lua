@@ -2,45 +2,53 @@
 local ni = ...
 local spells = {
 --General
-   AutoAttack = {id = 6603, name = ni.spell.info(6603)},
-   Cultivation = {id = 20552, name = ni.spell.info(20552)},
-   Dodge = {id = 81, name = ni.spell.info(81)},
-   DualWield = {id = 674, name = ni.spell.info(674)},
-   Endurance = {id = 20550, name = ni.spell.info(20550)},
-   FirstAid = {id = 10846, name = ni.spell.info(10846)},
-   NatureResistance = {id = 20551, name = ni.spell.info(20551)},
-   Parry = {id = 3127, name = ni.spell.info(3127)},
-   Runeforging = {id = 53428, name = ni.spell.info(53428)},
-   WarStomp = {id = 20549, name = ni.spell.info(20549)},
+AutoAttack = {id = 6603, name = ni.spell.info(6603)},
+Cultivation = {id = 20552, name = ni.spell.info(20552)},
+Dodge = {id = 81, name = ni.spell.info(81)},
+DualWield = {id = 674, name = ni.spell.info(674)},
+Endurance = {id = 20550, name = ni.spell.info(20550)},
+FirstAid = {id = 10846, name = ni.spell.info(10846)},
+NatureResistance = {id = 20551, name = ni.spell.info(20551)},
+Parry = {id = 3127, name = ni.spell.info(3127)},
+Runeforging = {id = 53428, name = ni.spell.info(53428)},
+WarStomp = {id = 20549, name = ni.spell.info(20549)},
 --Blood
-   AbominationsMight = {id = 53138, name = ni.spell.info(53138)},
-   BloodBoil = {id = 48721, name = ni.spell.info(48721)},
-   BloodPresence = {id = 48266, name = ni.spell.info(48266)},
-   BloodStrike = {id = 49926, name = ni.spell.info(49926)},
-   ForcefulDeflection = {id = 49410, name = ni.spell.info(49410)},
-   HeartStrike = {id = 55258, name = ni.spell.info(55258)},
-   Pestilence = {id = 50842, name = ni.spell.info(50842)},
-   RuneTap = {id = 48982, name = ni.spell.info(48982)},
-   Strangulate = {id = 47476, name = ni.spell.info(47476)},
-   VampiricBlood = {id = 55233, name = ni.spell.info(55233)},
+AbominationsMight = {id = 53138, name = ni.spell.info(53138)},
+BloodBoil = {id = 49939, name = ni.spell.info(49939)},
+BloodPresence = {id = 48266, name = ni.spell.info(48266)},
+BloodStrike = {id = 49928, name = ni.spell.info(49928)},
+BloodTap = {id = 45529, name = ni.spell.info(45529)},
+DarkCommand = {id = 56222, name = ni.spell.info(56222)},
+DeathPact = {id = 48743, name = ni.spell.info(48743)},
+ForcefulDeflection = {id = 49410, name = ni.spell.info(49410)},
+HeartStrike = {id = 55260, name = ni.spell.info(55260)},
+Pestilence = {id = 50842, name = ni.spell.info(50842)},
+RuneTap = {id = 48982, name = ni.spell.info(48982)},
+Strangulate = {id = 47476, name = ni.spell.info(47476)},
+VampiricBlood = {id = 55233, name = ni.spell.info(55233)},
 --Frost
-   ChainsofIce = {id = 45524, name = ni.spell.info(45524)},
-   FrostFever = {id = 59921, name = ni.spell.info(59921)},
-   FrostPresence = {id = 48263, name = ni.spell.info(48263)},
-   IceboundFortitude = {id = 48792, name = ni.spell.info(48792)},
-   IcyTouch = {id = 49896, name = ni.spell.info(49896)},
-   MindFreeze = {id = 47528, name = ni.spell.info(47528)},
-   Obliterate = {id = 49020, name = ni.spell.info(49020)},
-   PathofFrost = {id = 3714, name = ni.spell.info(3714)},
-   RunicFocus = {id = 61455, name = ni.spell.info(61455)},
+ChainsofIce = {id = 45524, name = ni.spell.info(45524)},
+FrostFever = {id = 59921, name = ni.spell.info(59921)},
+FrostPresence = {id = 48263, name = ni.spell.info(48263)},
+HornofWinter = {id = 57330, name = ni.spell.info(57330)},
+IceboundFortitude = {id = 48792, name = ni.spell.info(48792)},
+IcyTouch = {id = 49903, name = ni.spell.info(49903)},
+MindFreeze = {id = 47528, name = ni.spell.info(47528)},
+Obliterate = {id = 51423, name = ni.spell.info(51423)},
+PathofFrost = {id = 3714, name = ni.spell.info(3714)},
+RuneStrike = {id = 56815, name = ni.spell.info(56815)},
+RunicFocus = {id = 61455, name = ni.spell.info(61455)},
 --Unholy
-   BloodPlague = {id = 59879, name = ni.spell.info(59879)},
-   DeathandDecay = {id = 43265, name = ni.spell.info(43265)},
-   DeathCoil = {id = 49892, name = ni.spell.info(49892)},
-   DeathGrip = {id = 49576, name = ni.spell.info(49576)},
-   DeathStrike = {id = 49999, name = ni.spell.info(49999)},
-   PlagueStrike = {id = 49917, name = ni.spell.info(49917)},
-   RaiseDead = {id = 46584, name = ni.spell.info(46584)},
+AntiMagicShell = {id = 48707, name = ni.spell.info(48707)},
+BloodPlague = {id = 59879, name = ni.spell.info(59879)},
+DeathandDecay = {id = 49936, name = ni.spell.info(49936)},
+DeathCoil = {id = 49893, name = ni.spell.info(49893)},
+DeathGate = {id = 50977, name = ni.spell.info(50977)},
+DeathGrip = {id = 49576, name = ni.spell.info(49576)},
+DeathStrike = {id = 45463, name = ni.spell.info(45463)},
+PlagueStrike = {id = 49919, name = ni.spell.info(49919)},
+RaiseDead = {id = 46584, name = ni.spell.info(46584)},
+UnholyPresence = {id = 48265, name = ni.spell.info(48265)},
 }
 
 local queue = {
@@ -49,6 +57,7 @@ local queue = {
    "AutoAttack",
    "MindFreeze",
    "RuneTap",
+   "RuneStrike",
    "GCD",
    "Presence",
    "MindFreeze",
@@ -61,6 +70,7 @@ local queue = {
    "HeartStrike",
    "BloodStrike",
    "DeathCoil",
+   "HornofWinter"
 }
 
 local enables = {}
@@ -92,6 +102,7 @@ local ui = {
       menu = {
          {selected = (menus["Presence"] == spells.BloodPresence.name), text = spells.BloodPresence.name},
          {selected = (menus["Presence"] == spells.FrostPresence.name), text = spells.FrostPresence.name},
+         {selected = (menus["Presence"] == spells.UnholyPresence.name), text = spells.UnholyPresence.name},
       },
       key = "Presence"
    },
@@ -127,7 +138,6 @@ local abilities = {
 		cache.blood_plauge = ni.unit.debuff_remaining(t, 55078, p)
 		cache.frost_fever = ni.unit.debuff_remaining(t, 55095, p)
       cache.runicpower = ni.player.power(6)
-      ni.objects.update()
 		cache.targets = ni.unit.enemies_in_range(t, 10)
       cache.target_count = ni.table.length(cache.targets)
 	end,
@@ -145,15 +155,19 @@ local abilities = {
          ni.spell.cast(spells.BloodPresence.name)
          return true
       end
+      if menus["Presence"] == spells.UnholyPresence.name and not ni.player.buff(spells.UnholyPresence.id) and ni.spell.available(spells.UnholyPresence.name) then
+         ni.spell.cast(spells.UnholyPresence.name)
+         return true
+      end
    end,
    ["IcyTouch"] = function()
-      if cache.frost_fever < 1.5 and ni.spell.valid(spells.IcyTouch.name, t, true, true) then
+      if cache.frost_fever < 2 and ni.spell.valid(spells.IcyTouch.name, t, true, true) then
          ni.spell.cast(spells.IcyTouch.name, t)
          return true
       end
    end,
    ["PlagueStrike"] = function()
-      if cache.blood_plauge < 1.5 and ni.spell.valid(spells.PlagueStrike.name, t, true, true) then
+      if cache.blood_plauge < 2 and ni.spell.valid(spells.PlagueStrike.name, t, true, true) then
          ni.spell.cast(spells.PlagueStrike.name, t)
          return true
       end
@@ -229,6 +243,17 @@ local abilities = {
             ni.spell.cast(spells.BloodBoil.name)
             return
          end
+      end
+   end,
+   ["HornofWinter"] = function ()
+      if ni.spell.available(spells.HornofWinter.name) then
+         ni.spell.cast(spells.HornofWinter.name)
+         return
+      end
+   end,
+   ["RuneStrike"] = function ()
+      if not ni.spell.is_current(spells.RuneStrike.id) and ni.spell.is_usable(spells.RuneStrike.name) and ni.spell.valid(spells.RuneStrike.name, t, true, true) then
+         ni.spell.cast(spells.RuneStrike.name)
       end
    end
 }
