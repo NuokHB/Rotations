@@ -59,6 +59,7 @@ local queue = {
    "RuneTap",
    "RuneStrike",
    "VampiricBlood",
+   "AntiMagicShell",
    "MindFreeze",
    "GCD",
    "Presence",
@@ -235,7 +236,7 @@ local abilities = {
       end
    end,
    ["RuneTap"] = function ()
-      if ni.spell.available(spells.RuneTap.name) and cache.hp() < values["RuneTap"] then
+      if ni.spell.available(spells.RuneTap.name) and cache.hp < values["RuneTap"] then
          ni.spell.cast(spells.RuneTap.name)
       end
    end,
@@ -255,7 +256,7 @@ local abilities = {
       if ni.spell.available(spells.BloodBoil.name) then
          local nearby = ni.unit.enemies_in_range(t, 10)
          local count = 0
-         for guid, value in ni.table.opairs(nearby) do
+         for guid in ni.table.opairs(nearby) do
             if  ni.unit.debuff_remaining(guid, 55078, p) > 2 or ni.unit.debuff_remaining(guid, 55095, p) > 2 then
                count = count + 1
             end
@@ -278,13 +279,18 @@ local abilities = {
       end
    end,
    ["IceboundFortitude"] = function ()
-      if enables["IceboundFortitude"] and ni.spell.available(spells.IceboundFortitude.name) and cache.hp() < values["IceboundFortitude"] then
+      if enables["IceboundFortitude"] and ni.spell.available(spells.IceboundFortitude.name) and cache.hp < values["IceboundFortitude"] then
          ni.spell.cast(spells.IceboundFortitude.name)
       end
    end,
    ["VampiricBlood"] = function ()
-      if enables["VampiricBlood"] and ni.spell.available(spells.VampiricBlood.name) and cache.hp() < values["VampiricBlood"] then
+      if enables["VampiricBlood"] and ni.spell.available(spells.VampiricBlood.name) and cache.hp < values["VampiricBlood"] then
          ni.spell.cast(spells.VampiricBlood.name)
+      end
+   end,
+   ["AntiMagicShell"] = function ()
+      if ni.spell.available(spells.AntiMagicShell.name) and ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == ni.player.guid() then
+         ni.spell.cast(spells.AntiMagicShell.name)
       end
    end
 }
