@@ -55,10 +55,11 @@ local queue = {
    "Pause",
    "Cache",
    "AutoAttack",
-   "MindFreeze",
+   "IceboundFortitude",
    "RuneTap",
    "RuneStrike",
    "VampiricBlood",
+   "MindFreeze",
    "GCD",
    "Presence",
    "MindFreeze",
@@ -74,9 +75,14 @@ local queue = {
    "HornofWinter"
 }
 
-local enables = {}
+local enables = {
+   ["IceboundFortitude"] = true,
+   ["VampiricBlood"] = true
+}
 local values = {
    ["DeathandDecay"] = 2,
+   ["IceboundFortitude"] = 40,
+   ["RuneTap"] = 70,
    ["VampiricBlood"] = 50,
 }
 local menus = {
@@ -109,6 +115,18 @@ local ui = {
       key = "Presence"
    },
    {type = "separator"},
+   {
+      type = "checkbox",
+      text = spells.IceboundFortitude.name,
+      enabled = enables["IceboundFortitude"],
+      key = "IceboundFortitude"
+   },
+   {
+      type = "checkbox",
+      text = spells.VampiricBlood.name,
+      enabled = enables["VampiricBlood"],
+      key = "VampiricBlood"
+   },
 }
 
 
@@ -142,6 +160,7 @@ local abilities = {
       cache.runicpower = ni.player.power(6)
 		cache.targets = ni.unit.enemies_in_range(t, 10)
       cache.target_count = ni.table.length(cache.targets)
+      cache.hp = ni.player.hp()
 	end,
    ["AutoAttack"] = function()
       if not ni.spell.is_current(spells.AutoAttack.id) and ni.player.in_melee(t) then
@@ -216,7 +235,7 @@ local abilities = {
       end
    end,
    ["RuneTap"] = function ()
-      if ni.spell.available(spells.RuneTap.name) and ni.player.hp() < 80 then
+      if ni.spell.available(spells.RuneTap.name) and cache.hp() < values["RuneTap"] then
          ni.spell.cast(spells.RuneTap.name)
       end
    end,
@@ -258,8 +277,13 @@ local abilities = {
          ni.spell.cast(spells.RuneStrike.name, t)
       end
    end,
+   ["IceboundFortitude"] = function ()
+      if enables["IceboundFortitude"] and ni.spell.available(spells.IceboundFortitude.name) and cache.hp() < values["IceboundFortitude"] then
+         ni.spell.cast(spells.IceboundFortitude.name)
+      end
+   end,
    ["VampiricBlood"] = function ()
-      if ni.spell.available(spells.VampiricBlood.name) and ni.player.hp() < values["VampiricBlood"] then
+      if enables["VampiricBlood"] and ni.spell.available(spells.VampiricBlood.name) and cache.hp() < values["VampiricBlood"] then
          ni.spell.cast(spells.VampiricBlood.name)
       end
    end
