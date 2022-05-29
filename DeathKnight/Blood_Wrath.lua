@@ -58,6 +58,7 @@ local queue = {
    "MindFreeze",
    "RuneTap",
    "RuneStrike",
+   "VampiricBlood",
    "GCD",
    "Presence",
    "MindFreeze",
@@ -75,7 +76,8 @@ local queue = {
 
 local enables = {}
 local values = {
-   ["DeathandDecay"] = 2
+   ["DeathandDecay"] = 2,
+   ["VampiricBlood"] = 50,
 }
 local menus = {
    ["Presence"] = spells.BloodPresence.name
@@ -253,7 +255,12 @@ local abilities = {
    end,
    ["RuneStrike"] = function ()
       if not ni.spell.is_current(spells.RuneStrike.id) and ni.spell.is_usable(spells.RuneStrike.name) and ni.spell.valid(spells.RuneStrike.name, t, true, true) then
-         ni.spell.cast(spells.RuneStrike.name)
+         ni.spell.cast(spells.RuneStrike.name, t)
+      end
+   end,
+   ["VampiricBlood"] = function ()
+      if ni.spell.available(spells.VampiricBlood.name) and ni.player.hp() < values["VampiricBlood"] then
+         ni.spell.cast(spells.VampiricBlood.name)
       end
    end
 }
