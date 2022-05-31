@@ -16,21 +16,22 @@ WarStomp = {id = 20549, name = ni.spell.info(20549)},
 AbominationsMight = {id = 53138, name = ni.spell.info(53138)},
 BloodBoil = {id = 49940, name = ni.spell.info(49940)},
 BloodPresence = {id = 48266, name = ni.spell.info(48266)},
-BloodStrike = {id = 49928, name = ni.spell.info(49928)},
+BloodStrike = {id = 49929, name = ni.spell.info(49929)},
 BloodTap = {id = 45529, name = ni.spell.info(45529)},
 DarkCommand = {id = 56222, name = ni.spell.info(56222)},
 DeathPact = {id = 48743, name = ni.spell.info(48743)},
 ForcefulDeflection = {id = 49410, name = ni.spell.info(49410)},
-HeartStrike = {id = 55260, name = ni.spell.info(55260)},
+HeartStrike = {id = 55261, name = ni.spell.info(55261)},
 Pestilence = {id = 50842, name = ni.spell.info(50842)},
 RuneTap = {id = 48982, name = ni.spell.info(48982)},
 Strangulate = {id = 47476, name = ni.spell.info(47476)},
 VampiricBlood = {id = 55233, name = ni.spell.info(55233)},
 --Frost
 ChainsofIce = {id = 45524, name = ni.spell.info(45524)},
+EmpowerRuneWeapon = {id = 47568, name = ni.spell.info(47568)},
 FrostFever = {id = 59921, name = ni.spell.info(59921)},
 FrostPresence = {id = 48263, name = ni.spell.info(48263)},
-HornofWinter = {id = 57330, name = ni.spell.info(57330)},
+HornofWinter = {id = 57623, name = ni.spell.info(57623)},
 IceboundFortitude = {id = 48792, name = ni.spell.info(48792)},
 IcyTouch = {id = 49904, name = ni.spell.info(49904)},
 MindFreeze = {id = 47528, name = ni.spell.info(47528)},
@@ -45,12 +46,17 @@ DeathandDecay = {id = 49937, name = ni.spell.info(49937)},
 DeathCoil = {id = 49893, name = ni.spell.info(49893)},
 DeathGate = {id = 50977, name = ni.spell.info(50977)},
 DeathGrip = {id = 49576, name = ni.spell.info(49576)},
-DeathStrike = {id = 45463, name = ni.spell.info(45463)},
-PlagueStrike = {id = 49919, name = ni.spell.info(49919)},
+DeathStrike = {id = 49923, name = ni.spell.info(49923)},
+PlagueStrike = {id = 49920, name = ni.spell.info(49920)},
 RaiseAlly = {id = 61999, name = ni.spell.info(61999)},
 RaiseDead = {id = 46584, name = ni.spell.info(46584)},
 UnholyPresence = {id = 48265, name = ni.spell.info(48265)},
 }
+
+local GlyphofVampiricBlood = ni.player.has_glyph(58676)
+local GlyphofHornofWinter = ni.player.has_glyph(58680)
+local GlyphofDisease = ni.player.has_glyph(63334)
+local GlyphofPestilence = ni.player.has_glyph(59309)
 
 local queue = {
    "Pause",
@@ -65,6 +71,7 @@ local queue = {
    "GCD",
    "Presence",
    "MindFreeze",
+   "GlyphofPestilence",
    "DeathandDecay",
    "Pestilence",
    "BloodBoil",
@@ -78,6 +85,7 @@ local queue = {
 }
 
 local enables = {
+   ["AntiMagicShell"] = true,
    ["IceboundFortitude"] = true,
    ["VampiricBlood"] = true
 }
@@ -117,6 +125,12 @@ local ui = {
       key = "Presence"
    },
    {type = "separator"},
+   {
+      type = "checkbox",
+      text = spells.AntiMagicShell.name,
+      enabled = enables["AntiMagicShell"],
+      key = "AntiMagicShell"
+   },
    {
       type = "checkbox",
       text = spells.IceboundFortitude.name,
@@ -170,15 +184,18 @@ local abilities = {
       end
    end,
    ["Presence"] = function ()
-      if menus["Presence"] == spells.FrostPresence.name and not ni.player.buff(spells.FrostPresence.id) and ni.spell.available(spells.FrostPresence.name) then
+      if menus["Presence"] == spells.FrostPresence.name and not ni.player.buff(spells.FrostPresence.id) and
+      ni.spell.available(spells.FrostPresence.name) then
          ni.spell.cast(spells.FrostPresence.name)
          return true
       end
-      if menus["Presence"] == spells.BloodPresence.name and not ni.player.buff(spells.BloodPresence.id) and ni.spell.available(spells.BloodPresence.name) then
+      if menus["Presence"] == spells.BloodPresence.name and not ni.player.buff(spells.BloodPresence.id) and
+      ni.spell.available(spells.BloodPresence.name) then
          ni.spell.cast(spells.BloodPresence.name)
          return true
       end
-      if menus["Presence"] == spells.UnholyPresence.name and not ni.player.buff(spells.UnholyPresence.id) and ni.spell.available(spells.UnholyPresence.name) then
+      if menus["Presence"] == spells.UnholyPresence.name and not ni.player.buff(spells.UnholyPresence.id) and
+      ni.spell.available(spells.UnholyPresence.name) then
          ni.spell.cast(spells.UnholyPresence.name)
          return true
       end
@@ -248,7 +265,8 @@ local abilities = {
       end
    end,
    ["DeathandDecay"] = function ()
-      if ni.spell.available(spells.DeathandDecay.name) and cache.target_count >= values["DeathandDecay"] and ni.spell.in_range(spells.IcyTouch.name, t) then
+      if ni.spell.available(spells.DeathandDecay.name) and cache.target_count >= values["DeathandDecay"] and
+      ni.spell.in_range(spells.IcyTouch.name, t) then
          ni.spell.cast_on(spells.DeathandDecay.name, t)
          return true
       end
@@ -275,7 +293,8 @@ local abilities = {
       end
    end,
    ["RuneStrike"] = function ()
-      if not ni.spell.is_current(spells.RuneStrike.id) and ni.spell.is_usable(spells.RuneStrike.name) and ni.spell.valid(spells.RuneStrike.name, t, true, true) then
+      if not ni.spell.is_current(spells.RuneStrike.id) and ni.spell.is_usable(spells.RuneStrike.name) and
+      ni.spell.valid(spells.RuneStrike.name, t, true, true) then
          ni.spell.cast(spells.RuneStrike.name, t)
       end
    end,
@@ -290,8 +309,15 @@ local abilities = {
       end
    end,
    ["AntiMagicShell"] = function ()
-      if ni.spell.available(spells.AntiMagicShell.name) and ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == ni.player.guid() then
+      if enables["AntiMagicShell"] and ni.spell.available(spells.AntiMagicShell.name) and
+      ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == ni.player.guid() then
          ni.spell.cast(spells.AntiMagicShell.name)
+      end
+   end,
+   ["GlyphofPestilence"] = function ()
+      if GlyphofPestilence and ni.spell.valid(spells.Pestilence.name, t, true, true) and
+      cache.blood_plauge > 0 and cache.frost_fever > 0 and (cache.blood_plauge < 3 or cache.frost_fever < 3) then
+         ni.spell.cast(spells.Pestilence.name, t)
       end
    end
 }
