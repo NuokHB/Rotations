@@ -14,14 +14,14 @@ Runeforging = {id = 53428, name = ni.spell.info(53428)},
 WarStomp = {id = 20549, name = ni.spell.info(20549)},
 --Blood
 AbominationsMight = {id = 53138, name = ni.spell.info(53138)},
-BloodBoil = {id = 49940, name = ni.spell.info(49940)},
+BloodBoil = {id = 49941, name = ni.spell.info(49941)},
 BloodPresence = {id = 48266, name = ni.spell.info(48266)},
-BloodStrike = {id = 49929, name = ni.spell.info(49929)},
+BloodStrike = {id = 49930, name = ni.spell.info(49930)},
 BloodTap = {id = 45529, name = ni.spell.info(45529)},
 DarkCommand = {id = 56222, name = ni.spell.info(56222)},
 DeathPact = {id = 48743, name = ni.spell.info(48743)},
 ForcefulDeflection = {id = 49410, name = ni.spell.info(49410)},
-HeartStrike = {id = 55261, name = ni.spell.info(55261)},
+HeartStrike = {id = 55262, name = ni.spell.info(55262)},
 Pestilence = {id = 50842, name = ni.spell.info(50842)},
 RuneTap = {id = 48982, name = ni.spell.info(48982)},
 Strangulate = {id = 47476, name = ni.spell.info(47476)},
@@ -33,21 +33,23 @@ FrostFever = {id = 59921, name = ni.spell.info(59921)},
 FrostPresence = {id = 48263, name = ni.spell.info(48263)},
 HornofWinter = {id = 57623, name = ni.spell.info(57623)},
 IceboundFortitude = {id = 48792, name = ni.spell.info(48792)},
-IcyTouch = {id = 49904, name = ni.spell.info(49904)},
+IcyTouch = {id = 49909, name = ni.spell.info(49909)},
+ImprovedIcyTalons = {id = 55610, name = ni.spell.info(55610)},
 MindFreeze = {id = 47528, name = ni.spell.info(47528)},
-Obliterate = {id = 51424, name = ni.spell.info(51424)},
+Obliterate = {id = 51425, name = ni.spell.info(51425)},
 PathofFrost = {id = 3714, name = ni.spell.info(3714)},
 RuneStrike = {id = 56815, name = ni.spell.info(56815)},
 RunicFocus = {id = 61455, name = ni.spell.info(61455)},
 --Unholy
 AntiMagicShell = {id = 48707, name = ni.spell.info(48707)},
+ArmyoftheDead = {id = 42650, name = ni.spell.info(42650)},
 BloodPlague = {id = 59879, name = ni.spell.info(59879)},
-DeathandDecay = {id = 49937, name = ni.spell.info(49937)},
-DeathCoil = {id = 49893, name = ni.spell.info(49893)},
+DeathandDecay = {id = 49938, name = ni.spell.info(49938)},
+DeathCoil = {id = 49895, name = ni.spell.info(49895)},
 DeathGate = {id = 50977, name = ni.spell.info(50977)},
 DeathGrip = {id = 49576, name = ni.spell.info(49576)},
-DeathStrike = {id = 49923, name = ni.spell.info(49923)},
-PlagueStrike = {id = 49920, name = ni.spell.info(49920)},
+DeathStrike = {id = 49924, name = ni.spell.info(49924)},
+PlagueStrike = {id = 49921, name = ni.spell.info(49921)},
 RaiseAlly = {id = 61999, name = ni.spell.info(61999)},
 RaiseDead = {id = 46584, name = ni.spell.info(46584)},
 UnholyPresence = {id = 48265, name = ni.spell.info(48265)},
@@ -57,6 +59,7 @@ local GlyphofVampiricBlood = ni.player.has_glyph(58676)
 local GlyphofHornofWinter = ni.player.has_glyph(58680)
 local GlyphofDisease = ni.player.has_glyph(63334)
 local GlyphofPestilence = ni.player.has_glyph(59309)
+local KillingMachine = 51124
 
 local queue = {
    "Pause",
@@ -74,6 +77,7 @@ local queue = {
    "GlyphofPestilence",
    "DeathandDecay",
    "Pestilence",
+   "KillingMachine",
    "BloodBoil",
    "IcyTouch",
    "PlagueStrike",
@@ -316,8 +320,14 @@ local abilities = {
    end,
    ["GlyphofPestilence"] = function ()
       if GlyphofPestilence and ni.spell.valid(spells.Pestilence.name, t, true, true) and
-      cache.blood_plauge > 0 and cache.frost_fever > 0 and (cache.blood_plauge < 3 or cache.frost_fever < 3) then
+      cache.blood_plauge > 0 and cache.frost_fever > 0 and (cache.blood_plauge < 5 or cache.frost_fever < 5) then
          ni.spell.cast(spells.Pestilence.name, t)
+      end
+   end,
+   ["KillingMachine"] = function ()
+      if ni.player.buff(KillingMachine) and ni.spell.valid(spells.IcyTouch.name, t, true, true) then
+         ni.spell.cast(spells.IcyTouch.name, t)
+         return true
       end
    end
 }
