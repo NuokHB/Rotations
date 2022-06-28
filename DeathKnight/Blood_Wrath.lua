@@ -1,5 +1,6 @@
 --Version: 12340
 local ni = ...
+
 local spells = {
 --General
 AutoAttack = {id = 6603, name = ni.spell.info(6603)},
@@ -81,9 +82,10 @@ local queue = {
    "BloodBoil",
    "IcyTouch",
    "PlagueStrike",
-   "DeathStrike",
+   "DeathStrikeHP",
    "HeartStrike",
    "BloodStrike",
+   "DeathStrikeFiller",
    "DeathCoil",
    "HornofWinter"
 }
@@ -98,6 +100,7 @@ local values = {
    ["IceboundFortitude"] = 40,
    ["RuneTap"] = 70,
    ["VampiricBlood"] = 50,
+   ["DeathStrike"] = 90
 }
 local menus = {
    ["Presence"] = spells.BloodPresence.name
@@ -114,8 +117,10 @@ local function GUICallback(key, item_type, value)
    end
 end
 
+local guid =  ni.player.guid()
+
 local ui = {
-   settingsfile = ni.player.guid() .. "_blood_dk_wrath.json",
+   settingsfile = guid .. "_blood_dk_wrath.json",
    callback = GUICallback,
    {type = "separator"},
    {
@@ -162,7 +167,7 @@ local cache = {
 
 local abilities = {
    ["Pause"] = function()
-      if ni.player.mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
+      if ni.mount.is_mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
             not ni.player.can_attack(t)
        then
          return true
@@ -222,7 +227,13 @@ local abilities = {
          return true
       end
    end,
-   ["DeathStrike"] = function()
+   ["DeathStrikeHP"] = function()
+      if ni.spell.valid(spells.DeathStrike.name, t, true, true) and cache.hp <= values["DeathStrike"] then
+         ni.spell.cast(spells.DeathStrike.name, t)
+         return true
+      end
+   end,
+   ["DeathStrikeFiller"] = function()
       if ni.spell.valid(spells.DeathStrike.name, t, true, true) then
          ni.spell.cast(spells.DeathStrike.name, t)
          return true
@@ -280,7 +291,7 @@ local abilities = {
          local nearby = ni.unit.enemies_in_range(t, 10)
          local count = 0
          for guid in ni.table.opairs(nearby) do
-            if  ni.unit.debuff_remaining(guid, 55078, p) > 2 or ni.unit.debuff_remaining(guid, 55095, p) > 2 then
+            if ni.unit.debuff_remaining(guid, 55078, p) > 2 or ni.unit.debuff_remaining(guid, 55095, p) > 2 then
                count = count + 1
             end
          end
@@ -314,7 +325,7 @@ local abilities = {
    end,
    ["AntiMagicShell"] = function ()
       if enables["AntiMagicShell"] and ni.spell.available(spells.AntiMagicShell.name) and
-      ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == ni.player.guid() then
+      ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == guid then
          ni.spell.cast(spells.AntiMagicShell.name)
       end
    end,

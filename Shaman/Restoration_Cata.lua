@@ -303,7 +303,7 @@ local queue = {
 
 local abilities = {
    ["Pause"] = function()
-      if ni.player.mounted() or ni.player.is_dead_or_ghost() then
+      if ni.mount.is_mounted() or ni.player.is_dead_or_ghost() then
          return true
       end
    end,

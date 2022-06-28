@@ -186,13 +186,13 @@ local GlyphofEternalWater = ni.player.has_glyph(70937)
 
 local abilities = {
    ["Pause"] = function()
-      if ni.player.mounted() or ni.player.is_dead_or_ghost() then
+      if ni.mount.is_mounted() or ni.player.is_dead_or_ghost() then
          return true
       end
    end,
    ["PauseTarget"] = function()
       if
-         ni.player.mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
+         ni.mount.is_mounted() or ni.player.is_dead_or_ghost() or not ni.unit.exists(t) or ni.unit.is_dead_or_ghost(t) or
             not ni.player.can_attack(t)
        then
          return true
