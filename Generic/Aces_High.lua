@@ -17,6 +17,43 @@ local Revivify = 3
 local LifeBurst = 4
 local FlameShield = 5
 
+local enables ={
+   ["Revivify"] = true,
+   ["RevivifyOOC"] = true,
+}
+local values = {}
+local menus = {}
+
+local function GUICallback(key, item_type, value)
+   ni.utilities.log("GUICallback " .. key .. " " .. item_type .. " " .. tostring(value) .. " ")
+   if item_type == "enabled" then
+      enables[key] = value
+   elseif item_type == "value" then
+      values[key] = value
+   elseif item_type == "menu" then
+      menus[key] = value
+   end
+end
+
+local ui = {
+   settingsfile = "aces_high.json",
+   callback = GUICallback,
+   {type = "label", text = "Aces High - Nuok"},
+   {type = "separator"},
+   {
+      type = "checkbox",
+      text = "Revivify",
+      enabled = enables["Revivify"],
+      key = "Revivify"
+   },
+   {
+      type = "checkbox",
+      text = "Revivify Out Of Combat",
+      enabled = enables["RevivifyOOC"],
+      key = "RevivifyOOC"
+   },
+}
+
 local cache = {
    combo = 0,
    energy = 0
@@ -33,12 +70,15 @@ local abilities = {
       cache.energy = ni.power.current("vehicle", 3)
    end,
    ["Revivify"] = function ()
-      if cache.energy > 10 and
-      (ni.unit.buff_stacks("vehicle", 57090) < 5 or
-      ni.unit.buff_remaining("vehicle", 57090) < 1.5)
-      and ni.pet.action_cooldown(Revivify) == 0 then
-          ni.pet.cast_action(Revivify)
-          return true
+      local combat = ni.unit.affecting_combat("target")
+      if enables["Revivify"] or (enables["RevivifyOOC"] and not combat) then
+         if cache.energy > 10 and
+         (ni.unit.buff_stacks("vehicle", 57090) < 5 or
+         ni.unit.buff_remaining("vehicle", 57090) < 1.5)
+         and ni.pet.action_cooldown(Revivify) == 0 then
+             ni.pet.cast_action(Revivify)
+             return true
+         end
       end
    end,
    ["target_check"] = function ()
@@ -47,7 +87,9 @@ local abilities = {
       end
    end,
    ["FlameShield"] = function ()
-      if cache.combo == 5 and cache.energy >= 25 and ni.pet.action_cooldown(FlameShield) == 0 then
+      if cache.combo == 5 and cache.energy >= 25 and
+      ni.pet.action_cooldown(FlameShield) == 0 and
+      not ni.unit.buff("vehicle", 57108) then
          ni.pet.cast_action(FlameShield)
          return true
       end
@@ -60,4 +102,4 @@ local abilities = {
    end
 }
 
-ni.profile.new("Aces_High", queue, abilities)
+ni.profile.new("Aces_High", queue, abilities, ui)
