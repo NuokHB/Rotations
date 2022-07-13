@@ -270,12 +270,12 @@ local abilities = {
    end,
    ["RuneTap"] = function ()
       if ni.spell.available(spells.RuneTap.name) and cache.hp < values["RuneTap"] then
-         ni.spell.cast(spells.RuneTap.name)
+         ni.spell.delay_cast(spells.RuneTap.name, p, 0.2)
       end
    end,
    ["MindFreeze"] = function()
       if ni.spell.valid(spells.MindFreeze.id, t, true, true) and ni.unit.can_interupt(t, 30) then
-         ni.spell.cast(spells.MindFreeze.id, t)
+         ni.spell.delay_cast(spells.MindFreeze.id, t, 0.2)
          return true
       end
    end,
@@ -310,23 +310,23 @@ local abilities = {
    ["RuneStrike"] = function ()
       if not ni.spell.is_current(spells.RuneStrike.id) and ni.spell.is_usable(spells.RuneStrike.name) and
       ni.spell.valid(spells.RuneStrike.name, t, true, true) then
-         ni.spell.cast(spells.RuneStrike.name, t)
+         ni.spell.delay_cast(spells.RuneStrike.name, t, 0.2)
       end
    end,
    ["IceboundFortitude"] = function ()
       if enables["IceboundFortitude"] and ni.spell.available(spells.IceboundFortitude.name) and cache.hp < values["IceboundFortitude"] then
-         ni.spell.cast(spells.IceboundFortitude.name)
+         ni.spell.delay_cast(spells.IceboundFortitude.name, p, 0.2)
       end
    end,
    ["VampiricBlood"] = function ()
       if enables["VampiricBlood"] and ni.spell.available(spells.VampiricBlood.name) and cache.hp < values["VampiricBlood"] then
-         ni.spell.cast(spells.VampiricBlood.name)
+         ni.spell.cast(spells.VampiricBlood.name, p, 0.2)
       end
    end,
    ["AntiMagicShell"] = function ()
       if enables["AntiMagicShell"] and ni.spell.available(spells.AntiMagicShell.name) and
       ni.unit.cast_not_interruptable(t) and ni.unit.target(t) == guid then
-         ni.spell.cast(spells.AntiMagicShell.name)
+         ni.spell.delay_cast(spells.AntiMagicShell.name, p, 0.2)
       end
    end,
    ["GlyphofPestilence"] = function ()
