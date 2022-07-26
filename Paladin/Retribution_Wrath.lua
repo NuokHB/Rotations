@@ -13,7 +13,7 @@ local spells = {
    Parry = {id = 3127, name = ni.spell.info(3127)},
    SealofCorruption = {id = 53736, name = ni.spell.info(53736)},
    WarStomp = {id = 20549, name = ni.spell.info(20549)},
-   --Holy
+--Holy
    BlessingofWisdom = {id = 48936, name = ni.spell.info(48936)},
    Cleanse = {id = 4987, name = ni.spell.info(4987)},
    ConcentrationAura = {id = 19746, name = ni.spell.info(19746)},
@@ -33,53 +33,54 @@ local spells = {
    SealofWisdom = {id = 20166, name = ni.spell.info(20166)},
    SenseUndead = {id = 5502, name = ni.spell.info(5502)},
    TurnEvil = {id = 10326, name = ni.spell.info(10326)},
-   --Protection
-   AvengersShield = {id = 48827, name = ni.spell.info(48827)},
+--Protection
    BlessingofKings = {id = 20217, name = ni.spell.info(20217)},
-   BlessingofSanctuary = {id = 20911, name = ni.spell.info(20911)},
    DevotionAura = {id = 48942, name = ni.spell.info(48942)},
    DivineIntervention = {id = 19752, name = ni.spell.info(19752)},
    DivineProtection = {id = 498, name = ni.spell.info(498)},
-   DivineSacrifice = {id = 64205, name = ni.spell.info(64205)},
    DivineShield = {id = 642, name = ni.spell.info(642)},
    FireResistanceAura = {id = 48947, name = ni.spell.info(48947)},
    FrostResistanceAura = {id = 48945, name = ni.spell.info(48945)},
    GreaterBlessingofKings = {id = 25898, name = ni.spell.info(25898)},
-   GreaterBlessingofSanctuary = {id = 25899, name = ni.spell.info(25899)},
    HammerofJustice = {id = 10308, name = ni.spell.info(10308)},
-   HammeroftheRighteous = {id = 53595, name = ni.spell.info(53595)},
    HandofFreedom = {id = 1044, name = ni.spell.info(1044)},
    HandofProtection = {id = 10278, name = ni.spell.info(10278)},
    HandofReckoning = {id = 62124, name = ni.spell.info(62124)},
    HandofSacrifice = {id = 6940, name = ni.spell.info(6940)},
    HandofSalvation = {id = 1038, name = ni.spell.info(1038)},
-   HolyShield = {id = 48952, name = ni.spell.info(48952)},
    RighteousDefense = {id = 31789, name = ni.spell.info(31789)},
    RighteousFury = {id = 25780, name = ni.spell.info(25780)},
    SealofJustice = {id = 20164, name = ni.spell.info(20164)},
    ShadowResistanceAura = {id = 48943, name = ni.spell.info(48943)},
    ShieldofRighteousness = {id = 61411, name = ni.spell.info(61411)},
-   SpiritualAttunement = {id = 33776, name = ni.spell.info(33776)},
-   --Retribution
+--Retribution
    AvengingWrath = {id = 31884, name = ni.spell.info(31884)},
    BlessingofMight = {id = 48932, name = ni.spell.info(48932)},
    CrusaderAura = {id = 32223, name = ni.spell.info(32223)},
+   CrusaderStrike = {id = 35395, name = ni.spell.info(35395)},
+   DivineStorm = {id = 53385, name = ni.spell.info(53385)},
    GreaterBlessingofMight = {id = 48934, name = ni.spell.info(48934)},
    HammerofWrath = {id = 48806, name = ni.spell.info(48806)},
    JudgementofJustice = {id = 53407, name = ni.spell.info(53407)},
    JudgementofLight = {id = 20271, name = ni.spell.info(20271)},
    JudgementofWisdom = {id = 53408, name = ni.spell.info(53408)},
-   RetributionAura = {id = 54043, name = ni.spell.info(54043)}
+   Repentance = {id = 20066, name = ni.spell.info(20066)},
+   RetributionAura = {id = 54043, name = ni.spell.info(54043)},
+   SealofCommand = {id = 20375, name = ni.spell.info(20375)},
 }
 
 local enables = {
-   ["SacredShield"] = true
+   ["SacredShield"] = true,
+   ["Consecration"] = true,
+   ["DivineStorm"] = true,
+   ["Cleanse"] = false
+
 }
 local values = {}
 local inputs = {}
 local menus = {
    ["Blessing"] = spells.BlessingofKings.name,
-   ["Seals"] = spells.SealofWisdom.name,
+   ["Seals"] = spells.SealofCommand.name,
    ["Auras"] = spells.DevotionAura.name,
    ["Judgement"] = spells.JudgementofWisdom.name
 }
@@ -97,7 +98,7 @@ local function GUICallback(key, item_type, value)
 end
 
 local ui = {
-   settingsfile = ni.player.guid() .. "_prot_pala_wrath.json",
+   settingsfile = ni.player.guid() .. "_ret_pala_wrath.json",
    callback = GUICallback,
    {type = "label", text = "Auras"},
    {
@@ -119,7 +120,6 @@ local ui = {
       menu = {
          {selected = (menus["Blessing"] == spells.BlessingofMight.name), text = spells.BlessingofMight.name},
          {selected = (menus["Blessing"] == spells.BlessingofKings.name), text = spells.BlessingofKings.name},
-         {selected = (menus["Blessing"] == spells.BlessingofSanctuary.name), text = spells.BlessingofSanctuary.name},
          {selected = (menus["Blessing"] == spells.BlessingofWisdom.name), text = spells.BlessingofWisdom.name}
       },
       key = "Blessing"
@@ -138,7 +138,9 @@ local ui = {
    {
       type = "combobox",
       menu = {
+         {selected = (menus["Seals"] == "Auto"), text = "Auto"},
          {selected = (menus["Seals"] == spells.SealofCorruption.name), text = spells.SealofCorruption.name},
+         {selected = (menus["Seals"] == spells.SealofCommand.name), text = spells.SealofCommand.name},
          {selected = (menus["Seals"] == spells.SealofJustice.name), text = spells.SealofJustice.name},
          {selected = (menus["Seals"] == spells.SealofLight.name), text = spells.SealofLight.name},
          {selected = (menus["Seals"] == spells.SealofRighteousness.name), text = spells.SealofRighteousness.name},
@@ -147,7 +149,12 @@ local ui = {
       key = "Seals"
    },
    {type = "checkbox", text = spells.SacredShield.name, enabled = enables["SacredShield"], key = "SacredShield"},
-   {type = "label", text = "Prot Pala by Nuok"}
+   {type = "checkbox", text = spells.Consecration.name, enabled = enables["Consecration"], key = "Consecration"},
+   {type = "checkbox", text = spells.DivineStorm.name, enabled = enables["DivineStorm"], key = "DivineStorm"},
+   {type = "checkbox", text = spells.Cleanse.name, enabled = enables["Cleanse"], key = "Cleanse"},
+
+
+   {type = "label", text = "Retribution Pala by Nuok"}
 }
 
 local queue = {
@@ -159,15 +166,17 @@ local queue = {
    "Aura",
    "Blessing",
    "DivinePlea",
-   "HolyShield",
    "SacredShield",
+   "Cleanse",
    "Consecration",
+   "TheArtofWar",
    "Seal",
-   "AvengersShield",
    "Judgement",
-   "ShieldofRighteousness",
-   "HammeroftheRighteous"
+   "DivineStorm",
+   "CrusaderStrike",
 }
+
+local TheArtofWar = 59578
 
 local t, p = "target", "player"
 
@@ -253,6 +262,24 @@ local abilities = {
       end
    end,
    ["Seal"] = function()
+      if menus["Seals"] == "Auto" then
+         if cache.target_count > 1 and ni.spell.available(spells.SealofCommand.name) and
+            not ni.player.buff(spells.SealofCommand.id) then
+               ni.spell.cast(spells.SealofCommand.name)
+               return true
+         elseif  ni.spell.available(spells.SealofCorruption.name) and
+            not ni.player.buff(spells.SealofCorruption.id) then
+               ni.spell.cast(spells.SealofCorruption.name)
+               return true
+         end
+      end
+      if
+      menus["Seals"] == spells.SealofCommand.name and ni.spell.available(spells.SealofCommand.name) and
+         not ni.player.buff(spells.SealofCommand.id)
+    then
+      ni.spell.cast(spells.SealofCommand.name)
+      return true
+   end
       if
          menus["Seals"] == spells.SealofRighteousness.name and ni.spell.available(spells.SealofRighteousness.name) and
             not ni.player.buff(spells.SealofRighteousness.id)
@@ -335,42 +362,15 @@ local abilities = {
          return true
       end
    end,
-   ["HammeroftheRighteous"] = function()
-      if ni.spell.is_usable(spells.HammeroftheRighteous.name) and ni.spell.valid(spells.HammeroftheRighteous.name, t, true, true) then
-         ni.spell.cast(spells.HammeroftheRighteous.name, t)
-         return true
-      end
-   end,
    ["Consecration"] = function()
-      if cache.target_count > 2 and ni.spell.available(spells.Consecration.name) then
+      if enables["Consecration"] and cache.target_count > 2 and ni.spell.available(spells.Consecration.name) then
          ni.spell.cast(spells.Consecration.name)
-         return true
-      end
-   end,
-   ["AvengersShield"] = function()
-      if ni.spell.is_usable(spells.AvengersShield.name) and ni.spell.valid(spells.AvengersShield.name, t, true, true) then
-         ni.spell.cast(spells.AvengersShield.name, t)
-         return true
-      end
-   end,
-   ["ShieldofRighteousness"] = function()
-      if ni.spell.is_usable(spells.ShieldofRighteousness.name) and ni.spell.valid(spells.ShieldofRighteousness.name, t, true, true) then
-         ni.spell.cast(spells.ShieldofRighteousness.name, t)
          return true
       end
    end,
    ["DivinePlea"] = function()
       if cache.mana < 25 and ni.spell.available(spells.DivinePlea.name) then
          ni.spell.cast(spells.DivinePlea.name)
-         return true
-      end
-   end,
-   ["HolyShield"] = function()
-      if
-         ni.spell.is_usable(spells.HolyShield.name) and ni.spell.available(spells.HolyShield.name) and
-            not ni.player.buff(spells.HolyShield.name)
-       then
-         ni.spell.cast(spells.HolyShield.name, p)
          return true
       end
    end,
@@ -383,7 +383,41 @@ local abilities = {
          ni.spell.cast(spells.SacredShield.name, p)
          return true
       end
+   end,
+   ["CrusaderStrike"] = function ()
+      if ni.spell.valid(spells.CrusaderStrike.name, t, true, true) then
+         ni.spell.cast(spells.CrusaderStrike.name, t)
+         return true
+      end
+   end,
+   ["DivineStorm"] = function()
+      if enables["DivineStorm"] and cache.target_count >= 1 and ni.spell.available(spells.DivineStorm.name) then
+         ni.spell.cast(spells.DivineStorm.name)
+         return true
+      end
+   end,
+   ["TheArtofWar"] = function ()
+      if ni.player.buff(TheArtofWar) then
+         if cache.hp < 90 and ni.spell.available(spells.FlashofLight.name) then
+            ni.spell.cast(spells.FlashofLight.name, p)
+            return true
+         elseif ni.spell.valid(spells.Exorcism.name, t, true,true) then
+            ni.spell.cast(spells.Exorcism.name, t)
+            return true
+         end
+      end
+   end,
+   ["Cleanse"] = function ()
+         if ni.spell.available(spells.Cleanse.name) then
+            local debuffs = ni.player.debuffs()
+            for k, v in ni.table.pairs(debuffs) do
+               if v.debuffType == "Magic" or v.debuffType == "Poison" or v.debuffType == "Disease" then
+                  ni.spell.cast(spells.Cleanse.name, p)
+                  return true
+               end
+            end
+         end
    end
 }
 
-ni.profile.new("Protection_Wrath", queue, abilities, ui)
+ni.profile.new("Retribution_Wrath", queue, abilities, ui)

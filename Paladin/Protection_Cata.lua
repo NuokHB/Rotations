@@ -9,7 +9,10 @@ local queue = {
    "RighteousFury",
    "Auras",
    "Seals",
+   "HammerofWrath",
    "AvengersShield",
+   "Consecration",
+   "HolyWrath",
    "CrusaderStrike",
    "Judgement",
    "AutoAttack"
@@ -96,9 +99,9 @@ end
 local ui = {
    settingsfile = ni.player.guid().."_prot_pala_cata.json",
    callback = GUICallback,
-   {type = "label", text = "Auras"},
    {
 		type = "combobox",
+      text = "Auras",
 		menu = {
          {selected = (menus["Auras"] == spells.ConcentrationAura.name), text = spells.ConcentrationAura.name},
          {selected = (menus["Auras"] == spells.CrusaderAura.name), text = spells.CrusaderAura.name},
@@ -108,18 +111,18 @@ local ui = {
 		},
 		key = "Seals"
 	},
-   {type = "label", text = "Blessings"},
    {
 		type = "combobox",
+      text = "Blessings",
 		menu = {
 			{selected = (menus["Blessing"] == spells.BlessingofMight.name), text = spells.BlessingofMight.name},
          {selected = (menus["Blessing"] == spells.BlessingofKings.name), text = spells.BlessingofKings.name},
 		},
 		key = "Blessing"
 	},
-   {type = "label", text = "Seals"},
    {
 		type = "combobox",
+      text = "Seals",
 		menu = {
          {selected = (menus["Seals"] == spells.SealofInsight.name), text = spells.SealofInsight.name},
          {selected = (menus["Seals"] == spells.SealofJustice.name), text = spells.SealofJustice.name},
@@ -224,6 +227,24 @@ local abilities = {
    ["RighteousFury"] = function ()
       if ni.spell.available(spells.RighteousFury.name) and not ni.player.buff(spells.RighteousFury.name) then
          ni.spell.cast(spells.RighteousFury.name)
+         return true
+      end
+   end,
+   ["Consecration"] = function ()
+      if ni.spell.available(spells.Consecration.name) and cache.target_count >= 1 then
+         ni.spell.cast(spells.Consecration.name)
+         return true
+      end
+   end,
+   ["HammerofWrath"] = function ()
+      if ni.spell.is_usable(spells.HammerofWrath.name) and ni.spell.valid(spells.HammerofWrath.name, t, true, true) then
+         ni.spell.cast(spells.HammerofWrath.name, t)
+         return true
+      end
+   end,
+   ["HolyWrath"] = function ()
+      if ni.spell.available(spells.HolyWrath.name) and cache.target_count >= 1 then
+         ni.spell.cast(spells.HolyWrath.name)
          return true
       end
    end
