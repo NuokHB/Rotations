@@ -73,8 +73,9 @@ local enables = {
    ["SacredShield"] = true,
    ["Consecration"] = true,
    ["DivineStorm"] = true,
-   ["Cleanse"] = false
-
+   ["Cleanse"] = false,
+   ["Trinket1"] = true,
+   ["Trinket2"] = true
 }
 local values = {}
 local inputs = {}
@@ -152,8 +153,9 @@ local ui = {
    {type = "checkbox", text = spells.Consecration.name, enabled = enables["Consecration"], key = "Consecration"},
    {type = "checkbox", text = spells.DivineStorm.name, enabled = enables["DivineStorm"], key = "DivineStorm"},
    {type = "checkbox", text = spells.Cleanse.name, enabled = enables["Cleanse"], key = "Cleanse"},
-
-
+   {type = "label", text = "Trinkets"},
+   {type = "checkbox", text = "Use Trinket 1", enabled = enables["Trinket1"], key = "Trinket1"},
+   {type = "checkbox", text = "Use Trinket 2", enabled = enables["Trinket2"], key = "Trinket2S"},
    {type = "label", text = "Retribution Pala by Nuok"}
 }
 
@@ -168,11 +170,12 @@ local queue = {
    "DivinePlea",
    "SacredShield",
    "Cleanse",
+   "Trinkets",
+   "DivineStorm",
    "Consecration",
    "TheArtofWar",
    "Seal",
    "Judgement",
-   "DivineStorm",
    "CrusaderStrike",
 }
 
@@ -184,7 +187,9 @@ local cache = {
    targets = nil,
    target_count = 0,
    hp = 100,
-   mana = ni.player.power_percent(0)
+   mana = ni.player.power_percent(0),
+   in_melee = ni.spell.in_range(spells.CrusaderStrike.name, t),
+   is_boss = ni.unit.is_boss(t)
 }
 
 local abilities = {
@@ -201,6 +206,8 @@ local abilities = {
       cache.target_count = ni.table.length(cache.targets)
       cache.hp = ni.player.hp()
       cache.mana = ni.player.power_percent(0)
+      cache.in_melee = ni.spell.in_range(spells.CrusaderStrike.name, t)
+      cache.is_boss = ni.unit.is_boss(t)
    end,
    ["GCD"] = function()
       if ni.spell.on_gcd() then
@@ -262,7 +269,7 @@ local abilities = {
       end
    end,
    ["Seal"] = function()
-      if menus["Seals"] == "Auto" then
+      if menus["Seals"] == "Auto" and cache.in_melee then
          if cache.target_count > 1 and ni.spell.available(spells.SealofCommand.name) and
             not ni.player.buff(spells.SealofCommand.id) then
                ni.spell.cast(spells.SealofCommand.name)
@@ -319,21 +326,21 @@ local abilities = {
    ["Blessing"] = function()
       if
          menus["Blessing"] == spells.BlessingofMight.name and ni.spell.available(spells.BlessingofMight.name) and
-            not ni.player.buff(spells.BlessingofMight.id)
+            not ni.player.buff(spells.BlessingofMight.id) and not ni.player.buff(spells.GreaterBlessingofMight.id)
        then
          ni.spell.cast(spells.BlessingofMight.name, p)
          return true
       end
       if
          menus["Blessing"] == spells.BlessingofKings.name and ni.spell.available(spells.BlessingofKings.name) and
-            not ni.player.buff(spells.BlessingofKings.id)
+            not ni.player.buff(spells.BlessingofKings.id) and not ni.player.buff(spells.GreaterBlessingofKings.id)
        then
          ni.spell.cast(spells.BlessingofKings.name, p)
          return true
       end
       if
          menus["Blessing"] == spells.BlessingofWisdom.name and ni.spell.available(spells.BlessingofWisdom.name) and
-            not ni.player.buff(spells.BlessingofWisdom.id)
+            not ni.player.buff(spells.BlessingofWisdom.id) and not ni.player.buff(spells.GreaterBlessingofWisdom.id)
        then
          ni.spell.cast(spells.BlessingofWisdom.name, p)
          return true
@@ -391,7 +398,9 @@ local abilities = {
       end
    end,
    ["DivineStorm"] = function()
-      if enables["DivineStorm"] and cache.target_count >= 1 and ni.spell.available(spells.DivineStorm.name) then
+      if enables["DivineStorm"] and
+      (cache.target_count >= 1 or cache.in_melee) and
+      ni.spell.available(spells.DivineStorm.name) then
          ni.spell.cast(spells.DivineStorm.name)
          return true
       end
@@ -417,6 +426,19 @@ local abilities = {
                end
             end
          end
+   end,
+   ["Trinkets"] = function ()
+      -- Slots 13, 14
+      if enables["Trinket1"] and cache.in_melee and cache.is_boss then
+         if ni.gear.spell(13) and ni.gear.cooldown_remaining(13) == 0 then
+            ni.gear.use(13)
+         end
+      end
+      if enables["Trinket2"] and cache.in_melee and cache.is_boss then
+         if ni.gear.spell(14) and ni.gear.cooldown_remaining(14) == 0 then
+            ni.gear.use(14)
+         end
+      end
    end
 }
 
