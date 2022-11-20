@@ -93,7 +93,8 @@ local spells = {
 }
 
 local enables = {
-   ["PetAttack"] = true
+   ["PetAttack"] = true,
+   ["MisdirectionPet"] = true
 }
 local values = {}
 local menus = {}
@@ -114,6 +115,7 @@ local ui = {
    callback = GUICallback,
    {type = "label", text = "BM Hunter by Nuok"},
    {type = "checkbox", text = "Pet Attack", enabled = enables["PetAttack"], key = "PetAttack"},
+   {type = "checkbox", text = "Misdirection on Pet", enabled = enables["MisdirectionPet"], key = "MisdirectionPet"},
 
 }
 
@@ -234,7 +236,7 @@ local abilities = {
       end
    end,
    ["Misdirection"] = function ()
-      if cache.has_pet then
+      if enables["MisdirectionPet"] and cache.has_pet then
          if ni.spell.valid(spells.Misdirection.name, pet, false, true, true) then
             ni.spell.cast(spells.Misdirection.name, pet)
             return true
